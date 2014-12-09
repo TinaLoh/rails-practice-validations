@@ -10,8 +10,12 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new(organization_params)
+    if @organization.valid?
     @organization.save
     redirect_to organizations_path, notice: "Organization saved successfully"
+    else
+    render :new
+    end
   end
 
   def edit
@@ -21,7 +25,11 @@ class OrganizationsController < ApplicationController
   def update
     @organization = Organization.find(params[:id])
     @organization.update(organization_params)
-    redirect_to organizations_path, notice: "Organization updated successfully"
+    if @organization.valid?
+      redirect_to organizations_path, notice: "Organization updated successfully"
+    else
+      render :edit
+    end
   end
 
   private
